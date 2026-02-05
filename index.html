@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sales Lead Management Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { background:#f4f6f9; }
+
+.table th {
+  background:#1f2937;
+  color:#fff;
+  text-align:center;
+}
+.table td {
+  text-align:center;
+  vertical-align:middle;
+}
+.name-col {
+  background:#374151;
+  color:#fff;
+  font-weight:600;
+  position: sticky;
+  left: 0;
+}
+.total-col {
+  background:#e5e7eb;
+  font-weight:700;
+}
+input[type=number] {
+  width:70px;
+}
+td[contenteditable] {
+  cursor:pointer;
+}
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="loading-overlay" id="loadingOverlay" style="display: none;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="container-fluid mt-3">
+<h2 class="text-center fw-bold mb-3">Sales Dashboard Boards</h2>
+
+<!-- ADD EMPLOYEE -->
+<div class="card mb-3">
+  <div class="card-body d-flex gap-2">
+    <input type="text" id="newEmployee" class="form-control" placeholder="Employee Name">
+    <button class="btn btn-success" onclick="addSalesEmployee()">Add Employee</button>
+    <button class="btn btn-primary" onclick="saveAllData()">Save All Data</button>
+  </div>
+</div>
+
+<!-- ================= DAILY BOARD ================= -->
+<div id="salesCarousel" class="carousel slide" data-bs-ride="false">
+
+  
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="2"></button>
+    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="3"></button>
+  </div>
+
+  <!-- Carousel Content -->
+  <div class="carousel-inner">
+
+    <!-- ================= DAILY BOARD ================= -->
+    <div class="carousel-item active">
+    <div class="card">
+        <div class="card-header text-center fw-bold">Daily Board</div>
+        <div class="card-body">
+
+      <div class="d-flex justify-content-center mb-3">
+  
+        <select id="monthSelect" class="form-select w-auto" onchange="renderDaily()">
+          <option value="0">January</option><option value="1">February</option>
+          <option value="2">March</option><option value="3">April</option>
+          <option value="4">May</option><option value="5">June</option>
+          <option value="6">July</option><option value="7">August</option>
+          <option value="8">September</option><option value="9">October</option>
+          <option value="10">November</option><option value="11">December</option>
+       </select>
+      </div>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead><tr id="dailyHead"></tr></thead>
+              <tbody id="dailyBody"></tbody>
+            </table>
+          </div>
+
+      </div>
+      </div>
+    </div>
+
+    <!-- ================= SUMMARY ================= -->
+    <div class="carousel-item">
+      <div class="card">
+        <div class="card-header text-center fw-bold">Webinar Summary</div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>FRE</th>
+                <th>OFF</th>
+                <th>REP</th>
+                <th>FAM</th>
+                <th>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="summaryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MONTHLY ================= -->
+    <div class="carousel-item">
+      <div class="card">
+        <div class="card-header text-center fw-bold">Monthly Batch</div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>10 Jan</th><th>Feb</th><th>Mar</th><th>Apr</th>
+                <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th>
+                <th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+              </tr>
+            </thead>
+            <tbody id="monthlyBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BATCH BOARD ================= -->
+    <div class="carousel-item">
+      <div class="card">
+        <div class="card-header text-center fw-bold">Batch Lead Board</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead><tr id="batchHead"><th>NAME</th></tr></thead>
+              <tbody id="batchBody"></tbody>
+              <tfoot id="batchFooter"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#salesCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#salesCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ================= SALES DASHBOARD ================= */
+const API_URL = 'https://tables-h7u9.onrender.com/api';
+
+const salesDefaultData = {
+  employees: ["Rutuja","Pallavi","Parivartan","Pooja","Rohit","Office"],
+  dailyBookings: {},
+  leadSummary: {},
+  monthlyLeads: {}
+};
+
+let salesData = salesDefaultData;
+let batchData = {
+  employees: ["Rutuja","Pallavi","Parivartan","Rohit","Pooja","Office"],
+  batches: [
+    {id:1,label:"8 Mar - Pune"},
+    {id:2,label:"6 Apr - Thane"},
+    {id:3,label:"18 May - Pune"}
+  ],
+  batchLeads: {},
+  thc: {}
+};
+
+// Show loading overlay
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+// Hide loading overlay
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+// Fetch data from the API
+async function fetchData() {
+  try {
+    showLoading();
+    const response = await fetch(`${API_URL}/sales`);
+    const data = await response.json();
+    
+    if (data.employees) {
+      salesData.employees = data.employees;
+      salesData.dailyBookings = data.dailyBookings || {};
+      salesData.leadSummary = data.leadSummary || {};
+      salesData.monthlyLeads = data.monthlyLeads || {};
+    }
+    
+    if (data.batchData) {
+      batchData = data.batchData;
+    }
+    
+    renderAll();
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    // Fallback to default data if API fails
+    initializeDefaultData();
+  } finally {
+    hideLoading();
+  }
+}
+
+// Initialize default data for new employees
+function initializeDefaultData() {
+  salesData.employees.forEach(emp=>{
+    if (!salesData.dailyBookings[emp]) salesData.dailyBookings[emp] = {};
+    if (!salesData.leadSummary[emp]) salesData.leadSummary[emp] = {pre:0,off:0,rep:0,app:0};
+    if (!salesData.monthlyLeads[emp]) salesData.monthlyLeads[emp] = Array(12).fill(0);
+  });
+  
+  batchData.employees.forEach(emp=>{
+    if (!batchData.batchLeads[emp]) {
+      batchData.batchLeads[emp] = {};
+      batchData.batches.forEach(b=>batchData.batchLeads[emp][b.id] = 0);
+    }
+  });
+  
+  batchData.batches.forEach(b=>{
+    if (!batchData.thc[b.id]) batchData.thc[b.id] = 0;
+  });
+  
+  renderAll();
+}
+
+// Save all data to the API
+async function saveAllData() {
+  try {
+    showLoading();
+    const response = await fetch(`${API_URL}/sales`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        employees: salesData.employees,
+        dailyBookings: salesData.dailyBookings,
+        leadSummary: salesData.leadSummary,
+        monthlyLeads: salesData.monthlyLeads,
+        batchData: batchData
+      })
+    });
+    
+    if (response.ok) {
+      alert('Data saved successfully!');
+    } else {
+      throw new Error('Failed to save data');
+    }
+  } catch (error) {
+    console.error('Error saving data:', error);
+    alert('Failed to save data. Please try again.');
+  } finally {
+    hideLoading();
+  }
+}
+
+function daysInMonth(month){
+  return new Date(new Date().getFullYear(), month+1, 0).getDate();
+}
+
+async function addSalesEmployee(){
+  const name=newEmployee.value.trim();
+  if(!name || salesData.employees.includes(name)) return;
+  
+  try {
+    showLoading();
+    const response = await fetch(`${API_URL}/employee`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name })
+    });
+    
+    if (response.ok) {
+      salesData.employees.push(name);
+      salesData.dailyBookings[name] = {};
+      salesData.leadSummary[name] = {pre:0,off:0,rep:0,app:0};
+      salesData.monthlyLeads[name] = Array(12).fill(0);
+      
+      // Also add to batch data
+      batchData.employees.push(name);
+      batchData.batchLeads[name] = {};
+      batchData.batches.forEach(b=>batchData.batchLeads[name][b.id] = 0);
+      
+      newEmployee.value="";
+      renderAll();
+      alert('Employee added successfully!');
+    } else {
+      throw new Error('Failed to add employee');
+    }
+  } catch (error) {
+    console.error('Error adding employee:', error);
+    alert('Failed to add employee. Please try again.');
+  } finally {
+    hideLoading();
+  }
+}
+
+function renderDaily(){
+  const month=+monthSelect.value;
+  const days=daysInMonth(month);
+  dailyHead.innerHTML=`<th class="name-col">Name</th>`;
+  for(let d=1;d<=days;d++) dailyHead.innerHTML+=`<th>${d}</th>`;
+  dailyHead.innerHTML+=`<th class="total-col">TOTAL</th>`;
+  dailyBody.innerHTML="";
+  salesData.employees.forEach(emp=>{
+    if (!salesData.dailyBookings[emp][month]) {
+      salesData.dailyBookings[emp][month] = {};
+    }
+    let total=0,row=`<tr><td class="name-col">${emp}</td>`;
+    for(let d=1;d<=days;d++){
+      const val=salesData.dailyBookings[emp][month][d]||"";
+      total+=Number(val||0);
+      row+=`<td contenteditable onblur="updateDaily('${emp}',${month},${d},this.innerText)">${val}</td>`;
+    }
+    row+=`<td class="total-col">${total}</td></tr>`;
+    dailyBody.innerHTML+=row;
+  });
+}
+
+function updateDaily(emp,m,d,val){
+  salesData.dailyBookings[emp][m][d]=Number(val)||0;
+  autoMonthly();
+  renderDaily();
+}
+
+function autoMonthly(){
+  salesData.employees.forEach(emp=>{
+    for(let m=0;m<12;m++){
+      let sum=0;
+      if(salesData.dailyBookings[emp][m])
+        Object.values(salesData.dailyBookings[emp][m]).forEach(v=>sum+=Number(v||0));
+      salesData.monthlyLeads[emp][m]=sum;
+    }
+  });
+  renderMonthly();
+}
+
+function renderSummary(){
+  summaryBody.innerHTML="";
+  salesData.employees.forEach(emp=>{
+    const s=salesData.leadSummary[emp];
+    const t=s.pre+s.off+s.rep+s.app;
+    summaryBody.innerHTML+=`
+    <tr>
+      <td>${emp}</td>
+      <td><input type="number" value="${s.pre}" onchange="sUpdate('${emp}','pre',this.value)"></td>
+      <td><input type="number" value="${s.off}" onchange="sUpdate('${emp}','off',this.value)"></td>
+      <td><input type="number" value="${s.rep}" onchange="sUpdate('${emp}','rep',this.value)"></td>
+      <td><input type="number" value="${s.app}" onchange="sUpdate('${emp}','app',this.value)"></td>
+      <td><b>${t}</b></td>
+    </tr>`;
+  });
+}
+
+function sUpdate(emp,k,v){
+  salesData.leadSummary[emp][k]=Number(v)||0;
+  renderSummary();
+}
+
+function renderMonthly(){
+  monthlyBody.innerHTML="";
+  salesData.employees.forEach(emp=>{
+    let r=`<tr><td>${emp}</td>`;
+    salesData.monthlyLeads[emp].forEach(v=>r+=`<td><b>${v}</b></td>`);
+    monthlyBody.innerHTML+=r+"</tr>";
+  });
+}
+
+function renderBatch(){
+  batchHead.innerHTML="<th>NAME</th>";
+  batchBody.innerHTML="";
+  batchFooter.innerHTML="";
+  batchData.batches.forEach(b=>batchHead.innerHTML+=`<th>${b.label}</th>`);
+  batchData.employees.forEach(emp=>{
+    let r=`<tr><td class="name-col">${emp}</td>`;
+    batchData.batches.forEach(b=>{
+      r+=`<td contenteditable onblur="updateBatch('${emp}',${b.id},this.innerText)">
+      ${batchData.batchLeads[emp][b.id]}</td>`;
+    });
+    batchBody.innerHTML+=r+"</tr>";
+  });
+  let t=`<tr><td>TOTAL</td>`;
+  batchData.batches.forEach(b=>{
+    let s=0;
+    batchData.employees.forEach(e=>s+=Number(batchData.batchLeads[e][b.id]||0));
+    t+=`<td>${s}</td>`;
+  });
+  let h=`<tr><td>T.H.C</td>`;
+  batchData.batches.forEach(b=>{
+    h+=`<td contenteditable onblur="updateTHC(${b.id},this.innerText)">${batchData.thc[b.id]}</td>`;
+  });
+  batchFooter.innerHTML=t+"</tr>"+h+"</tr>";
+}
+
+function updateBatch(emp,id,v){
+  batchData.batchLeads[emp][id]=Number(v)||0;
+  renderBatch();
+}
+function updateTHC(id,v){
+  batchData.thc[id]=Number(v)||0;
+  renderBatch();
+}
+
+function renderAll(){
+  renderDaily();
+  renderSummary();
+  renderMonthly();
+  renderBatch();
+}
+
+// Fetch data when the page loads
+document.addEventListener('DOMContentLoaded', fetchData);
+</script>
+
+</body>
+</html>
