@@ -6,185 +6,642 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-body { background:#f4f6f9; }
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #7c3aed;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
+  --dark: #1e293b;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --radius: 16px;
+  --radius-sm: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-.table th {
-  background:#1f2937;
-  color:#fff;
-  text-align:center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.table td {
-  text-align:center;
-  vertical-align:middle;
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--gray-800);
+  min-height: 100vh;
+  line-height: 1.6;
 }
-.name-col {
-  background:#374151;
-  color:#fff;
-  font-weight:600;
+
+/* Header Styles */
+.dashboard-header {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 24px 0;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Action Bar */
+.action-bar {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-control-modern {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  transition: var(--transition);
+  background: white;
+}
+
+.form-control-modern:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-modern {
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-primary-modern {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary-modern:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-success-modern {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success-modern:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Carousel Styles */
+.carousel-container {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 32px;
+}
+
+.carousel-indicators-custom {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  background: var(--gray-50);
+}
+
+.indicator-dot {
+  width: 48px;
+  height: 6px;
+  background: var(--gray-300);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  padding: 0;
+}
+
+.indicator-dot:hover {
+  background: var(--gray-400);
+}
+
+.indicator-dot.active {
+  background: var(--primary);
+  width: 64px;
+}
+
+/* Hide carousel controls */
+.carousel-control-prev,
+.carousel-control-next {
+  display: none !important;
+}
+
+/* Card Styles */
+.dashboard-card {
+  height: 100%;
+  background: white;
+  border-radius: 0;
+}
+
+.card-header-custom {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 20px 24px;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-body-custom {
+  padding: 32px 24px;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+}
+
+.table-modern {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+}
+
+.table-modern thead th {
+  background: var(--gray-50);
+  color: var(--gray-700);
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 16px 12px;
+  text-align: center;
+  border-bottom: 2px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-modern tbody tr {
+  transition: var(--transition);
+}
+
+.table-modern tbody tr:hover {
+  background: var(--gray-50);
+}
+
+.table-modern tbody tr:hover td {
+  color: var(--gray-900);
+}
+
+.table-modern td {
+  padding: 16px 12px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.name-cell {
+  background: linear-gradient(90deg, var(--gray-50), white);
+  font-weight: 600;
+  color: var(--gray-800);
+  text-align: left !important;
+  padding-left: 20px !important;
   position: sticky;
   left: 0;
+  z-index: 5;
+  border-right: 2px solid var(--gray-200);
 }
-.total-col {
-  background:#e5e7eb;
-  font-weight:700;
+
+.total-cell {
+  background: var(--gray-50);
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 16px;
 }
-input[type=number] {
-  width:70px;
+
+/* Editable Cells */
+.editable-cell {
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+  border-radius: var(--radius-sm);
 }
-td[contenteditable] {
-  cursor:pointer;
+
+.editable-cell:hover {
+  background: var(--gray-100);
+  color: var(--primary);
 }
+
+.editable-cell:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 2px var(--primary);
+  color: var(--gray-900);
+}
+
+/* Input Styles */
+.input-number {
+  width: 100px;
+  padding: 8px 12px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-weight: 600;
+  transition: var(--transition);
+  background: white;
+}
+
+.input-number:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Select Styles */
+.select-modern {
+  padding: 10px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  background: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.select-modern:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Loading Overlay */
 .loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.95);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.spinner-modern {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer Table Styles */
+.table-footer {
+  background: var(--gray-50);
+  font-weight: 700;
+}
+
+.table-footer td {
+  padding: 20px 12px;
+  color: var(--gray-800);
+  font-size: 15px;
+  border-top: 2px solid var(--gray-200);
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  z-index: 10000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification-success {
+  background: var(--success);
+  color: white;
+}
+
+.notification-error {
+  background: var(--danger);
+  color: white;
+}
+
+.notification-warning {
+  background: var(--warning);
+  color: white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (min-width: 1400px) {
+  .container-fluid {
+    max-width: 1400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 1.75rem;
+  }
+  
+  .action-bar {
+    padding: 16px;
+  }
+  
+  .card-body-custom {
+    padding: 20px 16px;
+  }
+  
+  .table-modern th,
+  .table-modern td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+  
+  .input-number {
+    width: 80px;
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
 }
 </style>
 </head>
 
 <body>
 
+<!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay" style="display: none;">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
+  <div class="spinner-modern"></div>
+</div>
+
+<!-- Header -->
+<div class="dashboard-header">
+  <div class="container-fluid">
+    <h1 class="dashboard-title">Sales Lead Management Dashboard</h1>
   </div>
 </div>
 
-<div class="container-fluid mt-3">
-<h2 class="text-center fw-bold mb-3">Sales Dashboard Boards</h2>
-
-<!-- ADD EMPLOYEE -->
-<div class="card mb-3">
-  <div class="card-body d-flex gap-2">
-    <input type="text" id="newEmployee" class="form-control" placeholder="Employee Name">
-    <button class="btn btn-success" onclick="addSalesEmployee()">Add Employee</button>
-    <button class="btn btn-primary" onclick="saveAllData()">Save All Data</button>
-  </div>
-</div>
-
-<!-- ================= DAILY BOARD ================= -->
-<div id="salesCarousel" class="carousel slide" data-bs-ride="false">
-
+<!-- Main Container -->
+<div class="container-fluid">
   
-  <!-- Indicators -->
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="0" class="active"></button>
-    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="1"></button>
-    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="2"></button>
-    <button type="button" data-bs-target="#salesCarousel" data-bs-slide-to="3"></button>
-  </div>
+  <!-- Action Bar -->
+  <!-- <div class="action-bar">
+    <input type="text" id="newEmployee" class="form-control-modern" placeholder="Enter employee name...">
+    <button class="btn-modern btn-success-modern" onclick="addSalesEmployee()">
+      <i class="bi bi-person-plus"></i>
+      Add Employee
+    </button>
+    <button class="btn-modern btn-primary-modern" onclick="saveAllData()">
+      <i class="bi bi-cloud-arrow-up"></i>
+      Save All Data
+    </button>
+  </div> -->
 
-  <!-- Carousel Content -->
-  <div class="carousel-inner">
-
-    <!-- ================= DAILY BOARD ================= -->
-    <div class="carousel-item active">
-    <div class="card">
-        <div class="card-header text-center fw-bold">Daily Board</div>
-        <div class="card-body">
-
-      <div class="d-flex justify-content-center mb-3">
-  
-        <select id="monthSelect" class="form-select w-auto" onchange="renderDaily()">
-          <option value="0">January</option><option value="1">February</option>
-          <option value="2">March</option><option value="3">April</option>
-          <option value="4">May</option><option value="5">June</option>
-          <option value="6">July</option><option value="7">August</option>
-          <option value="8">September</option><option value="9">October</option>
-          <option value="10">November</option><option value="11">December</option>
-       </select>
+  <!-- Carousel Container -->
+  <div class="carousel-container">
+   <div id="salesCarousel"
+     class="carousel slide"
+     data-bs-ride="carousel"
+     data-bs-interval="8000"
+     data-bs-pause="false"
+     data-bs-touch="true">
+      <!-- Indicators -->
+      <div class="carousel-indicators-custom">
+        <button class="indicator-dot active" data-bs-target="#salesCarousel" data-bs-slide-to="0"></button>
+        <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="1"></button>
+        <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="2"></button>
+        <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="3"></button>
       </div>
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead><tr id="dailyHead"></tr></thead>
-              <tbody id="dailyBody"></tbody>
-            </table>
-          </div>
 
-      </div>
-      </div>
-    </div>
-
-    <!-- ================= SUMMARY ================= -->
-    <div class="carousel-item">
-      <div class="card">
-        <div class="card-header text-center fw-bold">Webinar Summary</div>
-        <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>FRE</th>
-                <th>OFF</th>
-                <th>REP</th>
-                <th>FAM</th>
-                <th>TOTAL</th>
-              </tr>
-            </thead>
-            <tbody id="summaryBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= MONTHLY ================= -->
-    <div class="carousel-item">
-      <div class="card">
-        <div class="card-header text-center fw-bold">Monthly Batch</div>
-        <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>10 Jan</th><th>Feb</th><th>Mar</th><th>Apr</th>
-                <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th>
-                <th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
-              </tr>
-            </thead>
-            <tbody id="monthlyBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= BATCH BOARD ================= -->
-    <div class="carousel-item">
-      <div class="card">
-        <div class="card-header text-center fw-bold">Batch Lead Board</div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead><tr id="batchHead"><th>NAME</th></tr></thead>
-              <tbody id="batchBody"></tbody>
-              <tfoot id="batchFooter"></tfoot>
-            </table>
+      <!-- Carousel Items -->
+      <div class="carousel-inner">
+        
+        <!-- Daily Board -->
+        <div class="carousel-item active">
+          <div class="dashboard-card">
+            <div class="card-header-custom">
+              <i class="bi bi-calendar3"></i>
+              Daily Performance Board
+            </div>
+            <div class="card-body-custom">
+              <div class="d-flex justify-content-center mb-4">
+                <select id="monthSelect" class="select-modern" onchange="renderDaily()">
+                  <option value="0">January</option>
+                  <option value="1">February</option>
+                  <option value="2">March</option>
+                  <option value="3">April</option>
+                  <option value="4">May</option>
+                  <option value="5">June</option>
+                  <option value="6">July</option>
+                  <option value="7">August</option>
+                  <option value="8">September</option>
+                  <option value="9">October</option>
+                  <option value="10">November</option>
+                  <option value="11">December</option>
+                </select>
+              </div>
+              <div class="table-container">
+                <table class="table-modern">
+                  <thead><tr id="dailyHead"></tr></thead>
+                  <tbody id="dailyBody"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Summary -->
+        <div class="carousel-item">
+          <div class="dashboard-card">
+            <div class="card-header-custom">
+              <i class="bi bi-graph-up-arrow"></i>
+              Webinar Performance Summary
+            </div>
+            <div class="card-body-custom">
+              <div class="table-container">
+                <table class="table-modern">
+                  <thead>
+                    <tr>
+                      <th>Team Member</th>
+                      <th>FRE</th>
+                      <th>OFF</th>
+                      <th>REP</th>
+                      <th>FAM</th>
+                      <th>TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody id="summaryBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly -->
+        <div class="carousel-item">
+          <div class="dashboard-card">
+            <div class="card-header-custom">
+              <i class="bi bi-calendar-month"></i>
+              Monthly Performance Metrics
+            </div>
+            <div class="card-body-custom">
+              <div class="table-container">
+                <table class="table-modern">
+                  <thead>
+                    <tr>
+                      <th>Team Member</th>
+                      <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th>
+                      <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th>
+                      <th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+                    </tr>
+                  </thead>
+                  <tbody id="monthlyBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Batch Board -->
+        <div class="carousel-item">
+          <div class="dashboard-card">
+            <div class="card-header-custom">
+              <i class="bi bi-people"></i>
+              Batch Lead Distribution
+            </div>
+            <div class="card-body-custom">
+              <div class="table-container">
+                <table class="table-modern">
+                  <thead><tr id="batchHead"><th>Team Member</th></tr></thead>
+                  <tbody id="batchBody"></tbody>
+                  <tfoot id="batchFooter" class="table-footer"></tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
 
-  <!-- Controls -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#salesCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-
-  <button class="carousel-control-next" type="button" data-bs-target="#salesCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -221,6 +678,22 @@ function hideLoading() {
   document.getElementById('loadingOverlay').style.display = 'none';
 }
 
+// Show notification
+function showNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type} fade-in`;
+  notification.innerHTML = `
+    <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'}"></i>
+    <span>${message}</span>
+  `;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideIn 0.3s ease-out reverse';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
 // Fetch data from the API
 async function fetchData() {
   try {
@@ -242,14 +715,13 @@ async function fetchData() {
     renderAll();
   } catch (error) {
     console.error('Error fetching data:', error);
-    // Fallback to default data if API fails
     initializeDefaultData();
   } finally {
     hideLoading();
   }
 }
 
-// Initialize default data for new employees
+// Initialize default data
 function initializeDefaultData() {
   salesData.employees.forEach(emp=>{
     if (!salesData.dailyBookings[emp]) salesData.dailyBookings[emp] = {};
@@ -271,7 +743,7 @@ function initializeDefaultData() {
   renderAll();
 }
 
-// Save all data to the API
+// Save all data
 async function saveAllData() {
   try {
     showLoading();
@@ -290,13 +762,13 @@ async function saveAllData() {
     });
     
     if (response.ok) {
-      alert('Data saved successfully!');
+      showNotification('Data saved successfully!', 'success');
     } else {
       throw new Error('Failed to save data');
     }
   } catch (error) {
     console.error('Error saving data:', error);
-    alert('Failed to save data. Please try again.');
+    showNotification('Failed to save data. Please try again.', 'error');
   } finally {
     hideLoading();
   }
@@ -307,8 +779,16 @@ function daysInMonth(month){
 }
 
 async function addSalesEmployee(){
-  const name=newEmployee.value.trim();
-  if(!name || salesData.employees.includes(name)) return;
+  const name = document.getElementById('newEmployee').value.trim();
+  if(!name) {
+    showNotification('Please enter an employee name', 'warning');
+    return;
+  }
+  
+  if(salesData.employees.includes(name)) {
+    showNotification('Employee already exists!', 'warning');
+    return;
+  }
   
   try {
     showLoading();
@@ -326,128 +806,138 @@ async function addSalesEmployee(){
       salesData.leadSummary[name] = {pre:0,off:0,rep:0,app:0};
       salesData.monthlyLeads[name] = Array(12).fill(0);
       
-      // Also add to batch data
       batchData.employees.push(name);
       batchData.batchLeads[name] = {};
       batchData.batches.forEach(b=>batchData.batchLeads[name][b.id] = 0);
       
-      newEmployee.value="";
+      document.getElementById('newEmployee').value = "";
       renderAll();
-      alert('Employee added successfully!');
+      showNotification(`${name} added successfully!`, 'success');
     } else {
       throw new Error('Failed to add employee');
     }
   } catch (error) {
     console.error('Error adding employee:', error);
-    alert('Failed to add employee. Please try again.');
+    showNotification('Failed to add employee. Please try again.', 'error');
   } finally {
     hideLoading();
   }
 }
 
 function renderDaily(){
-  const month=+monthSelect.value;
-  const days=daysInMonth(month);
-  dailyHead.innerHTML=`<th class="name-col">Name</th>`;
-  for(let d=1;d<=days;d++) dailyHead.innerHTML+=`<th>${d}</th>`;
-  dailyHead.innerHTML+=`<th class="total-col">TOTAL</th>`;
-  dailyBody.innerHTML="";
-  salesData.employees.forEach(emp=>{
+  const month = +monthSelect.value;
+  const days = daysInMonth(month);
+  dailyHead.innerHTML = `<th class="name-cell">Team Member</th>`;
+  for(let d = 1; d <= days; d++) {
+    dailyHead.innerHTML += `<th>${d}</th>`;
+  }
+  dailyHead.innerHTML += `<th class="total-cell">TOTAL</th>`;
+  
+  dailyBody.innerHTML = "";
+  salesData.employees.forEach(emp => {
     if (!salesData.dailyBookings[emp][month]) {
       salesData.dailyBookings[emp][month] = {};
     }
-    let total=0,row=`<tr><td class="name-col">${emp}</td>`;
-    for(let d=1;d<=days;d++){
-      const val=salesData.dailyBookings[emp][month][d]||"";
-      total+=Number(val||0);
-      row+=`<td contenteditable onblur="updateDaily('${emp}',${month},${d},this.innerText)">${val}</td>`;
+    let total = 0;
+    let row = `<tr><td class="name-cell">${emp}</td>`;
+    for(let d = 1; d <= days; d++){
+      const val = salesData.dailyBookings[emp][month][d] || "";
+      total += Number(val || 0);
+      row += `<td class="editable-cell" contenteditable onblur="updateDaily('${emp}',${month},${d},this.innerText)">${val}</td>`;
     }
-    row+=`<td class="total-col">${total}</td></tr>`;
-    dailyBody.innerHTML+=row;
+    row += `<td class="total-cell">${total}</td></tr>`;
+    dailyBody.innerHTML += row;
   });
 }
 
-function updateDaily(emp,m,d,val){
-  salesData.dailyBookings[emp][m][d]=Number(val)||0;
+function updateDaily(emp, m, d, val){
+  salesData.dailyBookings[emp][m][d] = Number(val) || 0;
   autoMonthly();
   renderDaily();
 }
 
 function autoMonthly(){
-  salesData.employees.forEach(emp=>{
-    for(let m=0;m<12;m++){
-      let sum=0;
-      if(salesData.dailyBookings[emp][m])
-        Object.values(salesData.dailyBookings[emp][m]).forEach(v=>sum+=Number(v||0));
-      salesData.monthlyLeads[emp][m]=sum;
+  salesData.employees.forEach(emp => {
+    for(let m = 0; m < 12; m++){
+      let sum = 0;
+      if(salesData.dailyBookings[emp][m]) {
+        Object.values(salesData.dailyBookings[emp][m]).forEach(v => sum += Number(v || 0));
+      }
+      salesData.monthlyLeads[emp][m] = sum;
     }
   });
   renderMonthly();
 }
 
 function renderSummary(){
-  summaryBody.innerHTML="";
-  salesData.employees.forEach(emp=>{
-    const s=salesData.leadSummary[emp];
-    const t=s.pre+s.off+s.rep+s.app;
-    summaryBody.innerHTML+=`
+  summaryBody.innerHTML = "";
+  salesData.employees.forEach(emp => {
+    const s = salesData.leadSummary[emp];
+    const t = s.pre + s.off + s.rep + s.app;
+    summaryBody.innerHTML += `
     <tr>
-      <td>${emp}</td>
-      <td><input type="number" value="${s.pre}" onchange="sUpdate('${emp}','pre',this.value)"></td>
-      <td><input type="number" value="${s.off}" onchange="sUpdate('${emp}','off',this.value)"></td>
-      <td><input type="number" value="${s.rep}" onchange="sUpdate('${emp}','rep',this.value)"></td>
-      <td><input type="number" value="${s.app}" onchange="sUpdate('${emp}','app',this.value)"></td>
-      <td><b>${t}</b></td>
+      <td class="name-cell">${emp}</td>
+      <td><input type="number" class="input-number" value="${s.pre}" onchange="sUpdate('${emp}','pre',this.value)"></td>
+      <td><input type="number" class="input-number" value="${s.off}" onchange="sUpdate('${emp}','off',this.value)"></td>
+      <td><input type="number" class="input-number" value="${s.rep}" onchange="sUpdate('${emp}','rep',this.value)"></td>
+      <td><input type="number" class="input-number" value="${s.app}" onchange="sUpdate('${emp}','app',this.value)"></td>
+      <td class="total-cell">${t}</td>
     </tr>`;
   });
 }
 
-function sUpdate(emp,k,v){
-  salesData.leadSummary[emp][k]=Number(v)||0;
+function sUpdate(emp, k, v){
+  salesData.leadSummary[emp][k] = Number(v) || 0;
   renderSummary();
 }
 
 function renderMonthly(){
-  monthlyBody.innerHTML="";
-  salesData.employees.forEach(emp=>{
-    let r=`<tr><td>${emp}</td>`;
-    salesData.monthlyLeads[emp].forEach(v=>r+=`<td><b>${v}</b></td>`);
-    monthlyBody.innerHTML+=r+"</tr>";
+  monthlyBody.innerHTML = "";
+  salesData.employees.forEach(emp => {
+    let row = `<tr><td class="name-cell">${emp}</td>`;
+    salesData.monthlyLeads[emp].forEach(v => row += `<td><b>${v}</b></td>`);
+    monthlyBody.innerHTML += row + "</tr>";
   });
 }
 
 function renderBatch(){
-  batchHead.innerHTML="<th>NAME</th>";
-  batchBody.innerHTML="";
-  batchFooter.innerHTML="";
-  batchData.batches.forEach(b=>batchHead.innerHTML+=`<th>${b.label}</th>`);
-  batchData.employees.forEach(emp=>{
-    let r=`<tr><td class="name-col">${emp}</td>`;
-    batchData.batches.forEach(b=>{
-      r+=`<td contenteditable onblur="updateBatch('${emp}',${b.id},this.innerText)">
-      ${batchData.batchLeads[emp][b.id]}</td>`;
+  batchHead.innerHTML = "<th>Team Member</th>";
+  batchBody.innerHTML = "";
+  batchFooter.innerHTML = "";
+  
+  batchData.batches.forEach(b => batchHead.innerHTML += `<th>${b.label}</th>`);
+  
+  batchData.employees.forEach(emp => {
+    let row = `<tr><td class="name-cell">${emp}</td>`;
+    batchData.batches.forEach(b => {
+      row += `<td class="editable-cell" contenteditable onblur="updateBatch('${emp}',${b.id},this.innerText)">
+        ${batchData.batchLeads[emp][b.id]}</td>`;
     });
-    batchBody.innerHTML+=r+"</tr>";
+    batchBody.innerHTML += row + "</tr>";
   });
-  let t=`<tr><td>TOTAL</td>`;
-  batchData.batches.forEach(b=>{
-    let s=0;
-    batchData.employees.forEach(e=>s+=Number(batchData.batchLeads[e][b.id]||0));
-    t+=`<td>${s}</td>`;
+  
+  let totalRow = `<tr><td class="name-cell">TOTAL</td>`;
+  batchData.batches.forEach(b => {
+    let sum = 0;
+    batchData.employees.forEach(e => sum += Number(batchData.batchLeads[e][b.id] || 0));
+    totalRow += `<td class="total-cell">${sum}</td>`;
   });
-  let h=`<tr><td>T.H.C</td>`;
-  batchData.batches.forEach(b=>{
-    h+=`<td contenteditable onblur="updateTHC(${b.id},this.innerText)">${batchData.thc[b.id]}</td>`;
+  
+  let thcRow = `<tr><td class="name-cell">T.H.C</td>`;
+  batchData.batches.forEach(b => {
+    thcRow += `<td class="editable-cell" contenteditable onblur="updateTHC(${b.id},this.innerText)">${batchData.thc[b.id]}</td>`;
   });
-  batchFooter.innerHTML=t+"</tr>"+h+"</tr>";
+  
+  batchFooter.innerHTML = totalRow + "</tr>" + thcRow + "</tr>";
 }
 
-function updateBatch(emp,id,v){
-  batchData.batchLeads[emp][id]=Number(v)||0;
+function updateBatch(emp, id, v){
+  batchData.batchLeads[emp][id] = Number(v) || 0;
   renderBatch();
 }
-function updateTHC(id,v){
-  batchData.thc[id]=Number(v)||0;
+
+function updateTHC(id, v){
+  batchData.thc[id] = Number(v) || 0;
   renderBatch();
 }
 
@@ -458,7 +948,7 @@ function renderAll(){
   renderBatch();
 }
 
-// Fetch data when the page loads
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', fetchData);
 </script>
 
