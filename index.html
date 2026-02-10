@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Sales Lead Management Dashboard</title>
+    <title>Sales Lead admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-       <style>
+    <style>
       /* ================= ROOT VARIABLES ================= */
       :root {
         --primary: #1e3a8a;
@@ -327,6 +327,7 @@
         gap: 12px;
         position: relative;
         overflow: hidden;
+        justify-content: center;
       }
 
       .card-header-custom::after {
@@ -465,6 +466,12 @@
         color: var(--primary);
         background: var(--primary-light) !important;
       }
+      
+      /* --- NEW: Highlight for selected month --- */
+      .current-month {
+        background-color: rgba(30, 58, 138, 0.1) !important;
+        border: 2px solid var(--primary) !important;
+      }
 
       .table-footer td {
         background: var(--gray-50);
@@ -566,117 +573,94 @@
         .dashboard-title {
           font-size: 2rem;
         }
-
         .card-header-custom {
           font-size: 1.1rem;
         }
-
         .table-modern thead th,
         .table-modern td {
           font-size: 14px;
           padding: 12px 8px;
         }
-
         .input-number {
           width: 70px;
         }
       }
-
       @media (max-width: 768px) {
         .dashboard-title {
           font-size: 1.8rem;
         }
-
         .dashboard-title::after {
           width: 60px;
         }
-
         .action-bar {
           padding: 16px;
           gap: 12px;
         }
-
         .form-control-modern {
           min-width: 100%;
         }
-
         .btn-modern {
           padding: 12px 16px;
           font-size: 14px;
         }
-
         .card-header-custom {
           font-size: 1rem;
           padding: 16px;
         }
-
         .card-body-custom {
           padding: 20px 16px;
         }
-
         .table-modern thead th,
         .table-modern td {
           font-size: 13px;
           padding: 10px 6px;
         }
-
         .input-number {
           width: 60px;
           font-size: 14px;
         }
-
         .notification {
           right: 16px;
           left: 16px;
           min-width: auto;
         }
       }
-
       @media (max-width: 576px) {
         .dashboard-title {
           font-size: 1.5rem;
         }
-
         .dashboard-header {
           padding: 20px 0;
           margin-bottom: 20px;
         }
-
         .action-bar {
           flex-direction: column;
           padding: 16px;
         }
-
         .carousel-container {
           margin-bottom: 24px;
         }
-
         .card-header-custom {
           font-size: 0.95rem;
           padding: 14px;
         }
-
         .card-body-custom {
           padding: 16px 12px;
         }
-
         .table-modern thead th,
         .table-modern td {
           font-size: 12px;
           padding: 8px 4px;
         }
-
         .name-cell {
           padding-left: 10px !important;
         }
-
         .input-number {
           width: 50px;
           font-size: 12px;
           padding: 6px 4px;
         }
       }
-
       /* ================= SELECT ================= */
       .select-modern {
         padding: 10px 14px;
@@ -689,70 +673,48 @@
         min-width: 180px;
         font-weight: 500;
       }
-
       .select-modern:focus {
         outline: none;
         border-color: var(--primary);
         box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
       }
-
       .select-modern:hover {
         border-color: var(--gray-300);
       }
-
       /* ================= CAROUSEL ANIMATION ================= */
       .carousel-item {
         transition: transform 0.6s ease-in-out;
       }
-
       /* ================= ENHANCEMENTS ================= */
       .fade-in {
         animation: fadeIn 0.5s ease-out;
       }
-
       @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
-
       .pulse {
         animation: pulse 2s infinite;
       }
-
       @keyframes pulse {
-        0% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.7;
-        }
-        100% {
-          opacity: 1;
-        }
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
       }
-
       .card-header-custom {
         display: flex;
-        justify-content: space-between;
         align-items: center;
       }
-
       /* ================= CHART CONTAINERS ================= */
       .charts-container {
         display: flex;
         gap: 20px;
         margin-top: 20px;
       }
-
       .chart-wrapper {
         flex: 1;
         min-width: 0;
       }
-
       .chart-title {
         text-align: center;
         font-weight: 600;
@@ -760,7 +722,6 @@
         margin-bottom: 10px;
         font-size: 14px;
       }
-
       .chart-container {
         position: relative;
         height: 300px;
@@ -770,7 +731,6 @@
         padding: 10px;
         box-shadow: var(--shadow-sm);
       }
-
       .pie-chart-container {
         position: relative;
         height: 380px !important;
@@ -783,7 +743,6 @@
         justify-content: center;
         align-items: center;
       }
-
       .bar-chart-container {
         position: relative;
         height: 300px;
@@ -793,29 +752,108 @@
         padding: 10px;
         box-shadow: var(--shadow-sm);
       }
-
       @media (max-width: 768px) {
-        .charts-container {
-          flex-direction: column;
-        }
-        
-        .chart-container {
-          height: 250px;
-        }
-
-        .pie-chart-container {
-          height: 300px !important;
-        }
+        .charts-container { flex-direction: column; }
+        .chart-container { height: 250px; }
+        .pie-chart-container { height: 300px !important; }
       }
-
       @media (max-width: 576px) {
-        .chart-container {
-          height: 200px;
-        }
-
-        .pie-chart-container {
-          height: 250px !important;
-        }
+        .chart-container { height: 200px; }
+        .pie-chart-container { height: 250px !important; }
+      }
+      /* ================= DOWNLOAD BUTTON FOR 5th SLIDE ================= */
+      .btn-download-charts {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .btn-download-charts:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+        color: white;
+      }
+      /* ================= BATCH SELECTION ================= */
+      .batch-selection-container {
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 1px solid var(--gray-200);
+      }
+      .batch-selection-title {
+        font-weight: 600;
+        color: var(--gray-700);
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-align: center;
+      }
+      .batch-selection-form {
+        display: flex;
+        gap: 12px;
+    justify-content: center;
+        flex-wrap: wrap;
+      }
+      .batch-select {
+        flex: 1;
+        min-width: 200px;
+      }
+      .batch-btn {
+        white-space: nowrap;
+      }
+      /* ================= BATCH INFO BADGE ================= */
+      .batch-info-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 12px;
+        box-shadow: var(--shadow-sm);
+      }
+      /* ================= YEAR SELECTOR ================= */
+      .year-selector-container {
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 1px solid var(--gray-200);
+      }
+      .year-selector-title {
+        font-weight: 600;
+        color: var(--gray-700);
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-align: center;
+      }
+      .year-selector-form {
+        display: flex;
+        gap: 12px;
+justify-content: center;
+        flex-wrap: wrap;
+      }
+      .year-select {
+        min-width: 150px;
+      }
+      .month-year-select {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .month-year-select .select-modern {
+        flex: 1;
       }
     </style>
   </head>
@@ -825,24 +863,6 @@
     </div>
     <div class="dashboard-header">
       <div class="container-fluid">
-        <!-- <div class="action-bar">
-          <input
-            type="text"
-            id="newEmployee"
-            class="form-control-modern"
-            placeholder="Enter employee name..."
-          />
-          <button
-            class="btn-modern btn-success-modern"
-            onclick="addSalesEmployee()"
-          >
-            <i class="bi bi-person-plus"></i> Add Employee
-          </button>
-          <button class="btn-modern btn-primary-modern" onclick="saveAllData()">
-            <i class="bi bi-cloud-arrow-up"></i> Save All Data
-          </button>
-        </div> -->
-
         <h1 class="dashboard-title">Sales Lead Management Dashboard</h1>
       </div>
     </div>
@@ -852,7 +872,7 @@
           id="salesCarousel"
           class="carousel slide"
           data-bs-ride="carousel"
-          data-bs-interval="20000"
+          data-bs-interval="10000"
           data-bs-pause="hover"
           data-bs-touch="true"
         >
@@ -862,14 +882,12 @@
             <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="2"></button>
             <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="3"></button>
             <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="4"></button>
-            <button class="indicator-dot" data-bs-target="#salesCarousel" data-bs-slide-to="5"></button>
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
-                        <div><i class="bi bi-calendar3"></i><span>Daily Performance Board</span></div>
-                        <button class="btn btn-sm btn-light ms-auto" onclick="downloadTableAsPDF('dailyBody', 'daily-performance.pdf')"><i class="bi bi-download"></i> PDF</button>
+                        <div><i class="bi bi-calendar3"></i> <span>Daily Lead Performance</span></div>
                     </div>
                     <div class="card-body-custom">
                         <div class="d-flex justify-content-center mb-4"><select id="monthSelect" class="select-modern" onchange="renderDaily()"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select></div>
@@ -880,21 +898,66 @@
             <div class="carousel-item">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
-                        <div><i class="bi bi-graph-up-arrow"></i><span>Webinar Performance Summary</span></div>
-                        <button class="btn btn-sm btn-light ms-auto" onclick="downloadTableAsPDF('summaryBody', 'webinar-summary.pdf')"><i class="bi bi-download"></i> PDF</button>
+                        <div>
+                            <i class="bi bi-graph-up-arrow"></i> 
+                            <span>Monthly Lead Performance</span>
+                            <span id="summaryBatchBadge" class="batch-info-badge" style="display: none;">All Batches</span>
+                        </div>
                     </div>
                     <div class="card-body-custom">
+                        <div class="batch-selection-container">
+                          <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12">
+                            <div class="batch-selection-title">Month Selection for Lead Performance</div>
+                            <div class="batch-selection-form">
+                                <select id="summaryMonthSelect" class="select-modern batch-select" onchange="renderSummary()">
+                                    <option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option>
+                                </select>
+                                <button class="btn-modern btn-primary-modern batch-btn" onclick="applySummaryMonth()">
+                                    <i class="bi bi-calendar-check"></i> Apply Month
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="col-12 col-md-6 col-lg-8">
+                            <div class="batch-selection-title">Batch Selection for Lead Performance</div>
+                            <div class="batch-selection-form">
+                                <select id="summaryBatchSelect" class="select-modern batch-select" onchange="renderBatchSummary()">
+                                    <option value="all">All Batches</option>
+                                    <option value="8march">8 March Batch</option><option value="6april">6 April Batch</option><option value="18may">18 May Batch</option>
+                                </select>
+                                <button class="btn-modern btn-primary-modern batch-btn" onclick="applyBatchFilter()">
+                                    <i class="bi bi-funnel"></i> Apply Filter
+                                </button>
+                                <button class="btn-modern btn-success-modern batch-btn" onclick="resetBatchFilter()">
+                                    <i class="bi bi-arrow-clockwise"></i> Reset
+                                </button>
+                            </div>
+                        </div> -->
                         <div class="table-container"><table class="table-modern"><thead><tr id="summaryHead"></tr></thead><tbody id="summaryBody"></tbody><tfoot id="summaryFooter" class="table-footer"></tfoot></table></div>
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
-                        <div><i class="bi bi-calendar-month"></i><span>Monthly Performance Business</span></div>
-                        <button class="btn btn-sm btn-light ms-auto" onclick="downloadTableAsPDF('monthlyBody', 'monthly-performance.pdf')"><i class="bi bi-download"></i> PDF</button>
+                        <div>
+                            <i class="bi bi-calendar-month"></i> 
+                            <span>Month Wise Business Performance </span>
+                            <span id="monthlyBatchBadge" class="batch-info-badge" style="display: none;">All Batches</span>
+                        </div>
                     </div>
                     <div class="card-body-custom">
+                        <div class="batch-selection-container">
+                            <div class="batch-selection-title">Select Month to Highlight</div>
+                            <div class="batch-selection-form">
+                                <select id="monthlyMonthSelect" class="select-modern batch-select" onchange="renderMonthly()">
+                                    <option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-container"><table class="table-modern"><thead><tr id="monthlyHead"></tr></thead><tbody id="monthlyBody"></tbody><tfoot id="monthlyFooter" class="table-footer"></tfoot></table></div>
                     </div>
                 </div>
@@ -902,8 +965,7 @@
             <div class="carousel-item">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
-                        <div><i class="bi bi-people"></i><span>Batch Lead Distribution</span></div>
-                        <button class="btn btn-sm btn-light ms-auto" onclick="downloadTableAsPDF('batchBody', 'batch-distribution.pdf')"><i class="bi bi-download"></i> PDF</button>
+                        <div><i class="bi bi-people"></i> <span>Lead Distribution Panel</span></div>
                     </div>
                     <div class="card-body-custom">
                         <div class="table-container"><table class="table-modern"><thead><tr id="batchHead"></tr></thead><tbody id="batchBody"></tbody><tfoot id="batchFooter" class="table-footer"></tfoot></table></div>
@@ -913,26 +975,32 @@
             <div class="carousel-item">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
-                        <div><i class="bi bi-calendar-range"></i><span>Monthly Batch – Admin Lead Entry</span></div>
-                        <button class="btn btn-sm btn-light ms-auto" onclick="downloadTableAsPDF('batchTableBody', 'monthly-batch-admin.pdf')"><i class="bi bi-download"></i> PDF</button>
+                        <div><i class="bi bi-bar-chart-fill"></i> <span>Monthly Webinar Lead Admin</span></div>
                     </div>
                     <div class="card-body-custom">
-                        <div class="table-container"><table class="table-modern"><thead><tr id="batchTableHead"></tr></thead><tbody id="batchTableBody"></tbody><tfoot id="batchTableFooter" class="table-footer"></tfoot></table></div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="dashboard-card mt-4">
-                    <div class="card-header-custom">
-                        <div><i class="bi bi-bar-chart-fill"></i><span>Monthly Webinar Lead Admin</span></div>
-                    </div>
-                    <div class="card-body-custom">
-                        <!-- <form id="webinarLeadForm" class="row g-3">
+                        <div class="year-selector-container">
+                            <div class="year-selector-title">Select Year for Webinar Leads</div>
+                            <div class="year-selector-form">
+                                <select id="webinarYearSelect" class="select-modern year-select" onchange="updateWebinarYear()">
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                                <span class="batch-info-badge" id="currentYearBadge">2025</span>
+                            </div>
+                        </div>
+                        <form id="webinarLeadForm" class="row g-3">
                             <div class="col-md-4"><label class="form-label fw-semibold">Select Month</label><select id="webinarMonth" class="select-modern w-100"><option value="Jan">January</option><option value="Feb">February</option><option value="Mar">March</option><option value="Apr">April</option><option value="May">May</option><option value="Jun">June</option><option value="Jul">July</option><option value="Aug">August</option><option value="Sep">September</option><option value="Oct">October</option><option value="Nov">November</option><option value="Dec">December</option></select></div>
                             <div class="col-md-4"><label class="form-label fw-semibold">Lead Count</label><input type="number" id="webinarLeadCount" class="form-control-modern w-100" placeholder="Enter total leads" /></div>
                             <div class="col-md-4 d-flex align-items-end"><button type="button" class="btn-modern btn-success-modern w-100" onclick="saveWebinarLeads()"><i class="bi bi-save"></i> Save / Update</button></div>
-                        </form> -->
+                        </form>
                         <hr class="my-4" />
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Webinar Analytics</h5>
+                        </div>
                         <div class="charts-container">
                             <div class="chart-wrapper">
                                 <div class="chart-title">Lead Distribution</div>
@@ -958,15 +1026,21 @@
     <script>
       /* ================= SALES DASHBOARD ================= */
       const API_URL = "https://tables-h7u9.onrender.com/api";
-
       let salesData = { employees: [], dailyBookings: {}, leadSummary: {}, monthlyLeads: {} };
       let batchData = { employees: [], batches: [], batchLeads: {}, thc: {} };
       let monthlyBatchData = [];
-      let webinarMonthlyLeads = {};
+      let webinarMonthlyLeads = {}; // Will be structured as {year: {month: count}}
       let customHeaders = {
-        daily: [], summary: ["Team Member", "Fresher", "Offline", "Repeater", "Family", "TOTAL"],
-        monthly: ["Team Member"], batch: ["Team Member"], batchTable: ["Team Member"],
+        daily: [], summary: ["Team Member", "Fresher", "Offer", "Repeater", "Family", "TOTAL"], monthly: ["Team Member"], batch: ["Team Member"], batchTable: ["Team Member"],
       };
+      let currentBatchFilter = "all";
+      let currentMonthlyBatchFilter = "all";
+      let currentSummaryMonth = new Date().getMonth();
+      let currentMonthlyMonth = new Date().getMonth();
+      let currentWebinarYear = "2025"; // Current year for webinar leads
+      
+      // Employee batch mapping
+      let employeeBatches = {};
 
       function showLoading() { document.getElementById("loadingOverlay").style.display = "flex"; }
       function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
@@ -999,7 +1073,38 @@
             }
           }
           customHeaders = data.customHeaders || customHeaders;
-          webinarMonthlyLeads = data.webinarLeads || {};
+          
+          // Handle webinar leads data structure with years
+          if (data.webinarLeads) {
+            if (typeof data.webinarLeads === 'object' && !Array.isArray(data.webinarLeads)) {
+              // Check if it's already structured with years
+              if (Object.keys(data.webinarLeads)[0] && !isNaN(Object.keys(data.webinarLeads)[0])) {
+                webinarMonthlyLeads = data.webinarLeads;
+              } else {
+                // Convert old format to new format with years
+                webinarMonthlyLeads = {};
+                webinarMonthlyLeads[currentWebinarYear] = data.webinarLeads;
+              }
+            } else {
+              webinarMonthlyLeads = {};
+              webinarMonthlyLeads[currentWebinarYear] = {};
+            }
+          } else {
+            webinarMonthlyLeads = {};
+            webinarMonthlyLeads[currentWebinarYear] = {};
+          }
+          
+          employeeBatches = data.employeeBatches || {};
+          
+          salesData.employees.forEach(emp => {
+            if (!salesData.leadSummary[emp]) {
+              salesData.leadSummary[emp] = {};
+              for(let i = 0; i < 12; i++) {
+                salesData.leadSummary[emp][i] = { pre: 0, off: 0, rep: 0, app: 0 };
+              }
+            }
+          });
+
           renderAll();
           renderWebinarPieChart();
           renderWebinarBarChart();
@@ -1023,6 +1128,7 @@
               leadSummary: salesData.leadSummary, monthlyLeads: salesData.monthlyLeads,
               batchData: batchData, monthlyBatchAdmin: monthlyBatchAdminObject,
               customHeaders: customHeaders, webinarLeads: webinarMonthlyLeads,
+              employeeBatches: employeeBatches
             }),
           });
           if (response.ok) { showNotification("Data saved successfully!", "success"); } else { throw new Error("Failed to save data"); }
@@ -1036,12 +1142,31 @@
         const month = document.getElementById("webinarMonth").value;
         const count = Number(document.getElementById("webinarLeadCount").value);
         if (isNaN(count) || count < 0) { showNotification("Please enter a valid lead count", "warning"); return; }
-        webinarMonthlyLeads[month] = count;
+        
+        // Initialize year object if it doesn't exist
+        if (!webinarMonthlyLeads[currentWebinarYear]) {
+          webinarMonthlyLeads[currentWebinarYear] = {};
+        }
+        
+        webinarMonthlyLeads[currentWebinarYear][month] = count;
         await saveAllData();
-        showNotification(`Leads for ${month} saved successfully!`, "success");
+        showNotification(`Leads for ${month} ${currentWebinarYear} saved successfully!`, "success");
         document.getElementById("webinarLeadCount").value = '';
         renderWebinarPieChart();
         renderWebinarBarChart();
+      }
+
+      // Function to update the current year for webinar leads
+      function updateWebinarYear() {
+        const yearSelect = document.getElementById("webinarYearSelect");
+        currentWebinarYear = yearSelect.value;
+        document.getElementById("currentYearBadge").textContent = currentWebinarYear;
+        
+        // Re-render charts with the new year's data
+        renderWebinarPieChart();
+        renderWebinarBarChart();
+        
+        showNotification(`Switched to ${currentWebinarYear} webinar data`, "success");
       }
 
       async function addSalesEmployee() {
@@ -1056,7 +1181,10 @@
           });
           if (response.ok) {
             salesData.employees.push(name); salesData.dailyBookings[name] = {};
-            salesData.leadSummary[name] = { pre: 0, off: 0, rep: 0, app: 0 };
+            salesData.leadSummary[name] = {};
+            for(let i = 0; i < 12; i++) {
+              salesData.leadSummary[name][i] = { pre: 0, off: 0, rep: 0, app: 0 };
+            }
             salesData.monthlyLeads[name] = Array(12).fill(0);
             batchData.employees.push(name); batchData.batchLeads[name] = {};
             batchData.batches.forEach((b) => (batchData.batchLeads[name][b.id] = 0));
@@ -1095,13 +1223,33 @@
         }
         totalRow += `<td class="total-cell">${grandTotal}</td></tr>`; dailyFooter.innerHTML += totalRow;
       }
+      
+      function renderBatchSummary() {
+        const batchSelect = document.getElementById("summaryBatchSelect");
+        currentBatchFilter = batchSelect.value;
+        renderSummary();
+      }
+      
       function renderSummary() {
+        const monthSelect = document.getElementById("summaryMonthSelect");
+        if (monthSelect) {
+          currentSummaryMonth = parseInt(monthSelect.value);
+        }
+        
         summaryHead.innerHTML = `<th class="name-cell editable-header" contenteditable onblur="updateSummaryHeader(0, this.innerText)">${customHeaders.summary[0]}</th>`;
         for (let i = 1; i < customHeaders.summary.length - 1; i++) { summaryHead.innerHTML += `<th class="editable-header" contenteditable onblur="updateSummaryHeader(${i}, this.innerText)">${customHeaders.summary[i]}</th>`; }
         summaryHead.innerHTML += `<th class="total-cell editable-header" contenteditable onblur="updateSummaryHeader(${customHeaders.summary.length - 1}, this.innerText)">${customHeaders.summary[customHeaders.summary.length - 1]}</th>`;
         summaryBody.innerHTML = "";
-        salesData.employees.forEach((emp) => {
-          const s = salesData.leadSummary[emp]; const total = s.pre + s.off + s.rep + s.app;
+        
+        // Filter employees based on batch selection
+        let employeesToShow = salesData.employees;
+        if (currentBatchFilter !== "all") {
+          employeesToShow = salesData.employees.filter(emp => employeeBatches[emp] === currentBatchFilter);
+        }
+        
+        employeesToShow.forEach((emp) => {
+          const s = salesData.leadSummary[emp][currentSummaryMonth] || { pre: 0, off: 0, rep: 0, app: 0 };
+          const total = s.pre + s.off + s.rep + s.app;
           let row = `<tr><td class="name-cell">${emp}</td>`;
           row += `<td class="editable-cell" contenteditable onblur="sUpdate('${emp}','pre',this.innerText)">${s.pre}</td>`;
           row += `<td class="editable-cell" contenteditable onblur="sUpdate('${emp}','off',this.innerText)">${s.off}</td>`;
@@ -1111,32 +1259,119 @@
         });
         summaryFooter.innerHTML = ""; let totalRow = `<tr><td class="name-cell">TOTAL</td>`; let grandTotal = 0;
         ["pre", "off", "rep", "app"].forEach((key) => {
-          let columnTotal = 0; salesData.employees.forEach((emp) => { columnTotal += Number(salesData.leadSummary[emp][key] || 0); });
+          let columnTotal = 0; 
+          employeesToShow.forEach((emp) => { columnTotal += Number(salesData.leadSummary[emp][currentSummaryMonth][key] || 0); });
           grandTotal += columnTotal; totalRow += `<td class="total-cell">${columnTotal}</td>`;
         });
         totalRow += `<td class="total-cell">${grandTotal}</td></tr>`; summaryFooter.innerHTML += totalRow;
       }
+
+      function applySummaryMonth() {
+        const monthSelect = document.getElementById("summaryMonthSelect");
+        currentSummaryMonth = parseInt(monthSelect.value);
+        const monthName = monthSelect.options[monthSelect.selectedIndex].text;
+        showNotification(`Now showing data for ${monthName}`, "success");
+        renderSummary();
+      }
+      
+      function applyBatchFilter() {
+        const batchSelect = document.getElementById("summaryBatchSelect");
+        const selectedBatch = batchSelect.value;
+        
+        if (selectedBatch === "all") {
+          showNotification("Showing all batches", "success");
+          document.getElementById("summaryBatchBadge").style.display = "none";
+        } else {
+          const batchName = batchSelect.options[batchSelect.selectedIndex].text;
+          showNotification(`Filter applied for ${batchName}`, "success");
+          document.getElementById("summaryBatchBadge").style.display = "inline-block";
+          document.getElementById("summaryBatchBadge").textContent = batchName;
+        }
+        
+        currentBatchFilter = selectedBatch;
+        renderSummary();
+      }
+      
+      function resetBatchFilter() {
+        document.getElementById("summaryBatchSelect").value = "all";
+        currentBatchFilter = "all";
+        document.getElementById("summaryBatchBadge").style.display = "none";
+        renderSummary();
+        showNotification("Batch filter reset", "success");
+      }
+      
+      function renderMonthlyBatch() {
+        const batchSelect = document.getElementById("monthlyBatchSelect");
+        currentMonthlyBatchFilter = batchSelect.value;
+        renderMonthly();
+      }
+      
       function renderMonthly() {
+        const monthSelect = document.getElementById("monthlyMonthSelect");
+        if (monthSelect) {
+          currentMonthlyMonth = parseInt(monthSelect.value);
+        }
+
         if (customHeaders.monthly.length === 1) { const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; customHeaders.monthly = [...customHeaders.monthly, ...months, "TOTAL"]; }
         monthlyHead.innerHTML = `<th class="name-cell editable-header" contenteditable onblur="updateMonthlyHeader(0, this.innerText)">${customHeaders.monthly[0]}</th>`;
         for (let i = 1; i < customHeaders.monthly.length - 1; i++) { monthlyHead.innerHTML += `<th class="editable-header" contenteditable onblur="updateMonthlyHeader(${i}, this.innerText)">${customHeaders.monthly[i]}</th>`; }
         monthlyHead.innerHTML += `<th class="total-cell editable-header" contenteditable onblur="updateMonthlyHeader(${customHeaders.monthly.length - 1}, this.innerText)">${customHeaders.monthly[customHeaders.monthly.length - 1]}</th>`;
         monthlyBody.innerHTML = "";
-        salesData.employees.forEach((emp) => {
+        
+        // Filter employees based on batch selection
+        let employeesToShow = salesData.employees;
+        if (currentMonthlyBatchFilter !== "all") {
+          employeesToShow = salesData.employees.filter(emp => employeeBatches[emp] === currentMonthlyBatchFilter);
+        }
+        
+        employeesToShow.forEach((emp) => {
           let total = 0; let row = `<tr><td class="name-cell">${emp}</td>`;
-          salesData.monthlyLeads[emp].forEach((v) => {
+          salesData.monthlyLeads[emp].forEach((v, i) => {
             total += Number(v || 0);
-            row += `<td class="editable-cell" contenteditable onblur="updateMonthly('${emp}',${salesData.monthlyLeads[emp].indexOf(v)},this.innerText)">${v}</td>`;
+            const isCurrentMonth = i === currentMonthlyMonth;
+            const cellClass = isCurrentMonth ? "editable-cell current-month" : "editable-cell";
+            row += `<td class="${cellClass}" contenteditable onblur="updateMonthly('${emp}',${i},this.innerText)">${v}</td>`;
           });
           row += `<td class="total-cell">${total}</td></tr>`; monthlyBody.innerHTML += row;
         });
         monthlyFooter.innerHTML = ""; let totalRow = `<tr><td class="name-cell">TOTAL</td>`; let grandTotal = 0;
         for (let m = 0; m < 12; m++) {
-          let monthTotal = 0; salesData.employees.forEach((emp) => { monthTotal += Number(salesData.monthlyLeads[emp][m] || 0); });
-          grandTotal += monthTotal; totalRow += `<td class="total-cell">${monthTotal}</td>`;
+          let monthTotal = 0; 
+          employeesToShow.forEach((emp) => { monthTotal += Number(salesData.monthlyLeads[emp][m] || 0); });
+          grandTotal += monthTotal;
+          const isCurrentMonth = m === currentMonthlyMonth;
+          const cellClass = isCurrentMonth ? "total-cell current-month" : "total-cell";
+          totalRow += `<td class="${cellClass}">${monthTotal}</td>`;
         }
         totalRow += `<td class="total-cell">${grandTotal}</td></tr>`; monthlyFooter.innerHTML += totalRow;
       }
+      
+      function applyMonthlyBatchFilter() {
+        const batchSelect = document.getElementById("monthlyBatchSelect");
+        const selectedBatch = batchSelect.value;
+        
+        if (selectedBatch === "all") {
+          showNotification("Showing all batches", "success");
+          document.getElementById("monthlyBatchBadge").style.display = "none";
+        } else {
+          const batchName = batchSelect.options[batchSelect.selectedIndex].text;
+          showNotification(`Filter applied for ${batchName}`, "success");
+          document.getElementById("monthlyBatchBadge").style.display = "inline-block";
+          document.getElementById("monthlyBatchBadge").textContent = batchName;
+        }
+        
+        currentMonthlyBatchFilter = selectedBatch;
+        renderMonthly();
+      }
+      
+      function resetMonthlyBatchFilter() {
+        document.getElementById("monthlyBatchSelect").value = "all";
+        currentMonthlyBatchFilter = "all";
+        document.getElementById("monthlyBatchBadge").style.display = "none";
+        renderMonthly();
+        showNotification("Batch filter reset", "success");
+      }
+      
       function renderBatch() {
         if (customHeaders.batch.length === 1) { batchData.batches.forEach((b) => customHeaders.batch.push(b.label)); customHeaders.batch.push("TOTAL"); }
         batchHead.innerHTML = `<th class="name-cell editable-header" contenteditable onblur="updateBatchHeader(0, this.innerText)">${customHeaders.batch[0]}</th>`;
@@ -1185,11 +1420,58 @@
         }
         totalRow += `<td class="total-cell">${grandTotal}</td></tr>`; batchTableFooter.innerHTML += totalRow;
       }
-      function renderAll() { renderDaily(); renderSummary(); renderMonthly(); renderBatch(); renderBatchTable(); }
+      function renderAll() { 
+        renderDaily(); 
+        renderSummary(); 
+        renderMonthly(); 
+        renderBatch(); 
+        renderBatchTable(); 
+      }
 
       // --- UPDATE FUNCTIONS ---
       function updateDaily(emp, m, d, val) { salesData.dailyBookings[emp][m][d] = Number(val) || 0; autoMonthly(); renderDaily(); }
-      function sUpdate(emp, k, v) { salesData.leadSummary[emp][k] = Number(v) || 0; renderSummary(); }
+      
+      // This function connects the 2nd and 3rd carousels in real-time for the currently selected month.
+      function sUpdate(emp, k, v) {
+        const oldValue = salesData.leadSummary[emp][currentSummaryMonth][k];
+        const newValue = Number(v) || 0;
+        salesData.leadSummary[emp][currentSummaryMonth][k] = newValue;
+        
+        // Calculate the total leads for the current month based on the new logic
+        calculateMonthlyLeads(emp, currentSummaryMonth);
+        
+        renderSummary();
+        renderMonthly();
+      }
+      
+      // New function to calculate monthly leads based on the specific rules
+      function calculateMonthlyLeads(emp, monthIndex) {
+        const summary = salesData.leadSummary[emp][monthIndex];
+        let totalLeads = 0;
+        
+        // Apply the specific calculation rules
+        // Fresher: 1 = 1 lead
+        if (summary.pre > 0) {
+          totalLeads += summary.pre * 1; // 1 lead per fresher
+        }
+        
+        // Offer: 1 = 0 leads, 2 = 1 lead
+        if (summary.off >= 2) {
+          totalLeads += Math.floor(summary.off / 2) * 1; // 1 lead per 2 offers
+        }
+        
+        // Repeater: 1 = 0 leads, 2 = 1 lead
+        if (summary.rep >= 2) {
+          totalLeads += Math.floor(summary.rep / 2) * 1; // 1 lead per 2 repeaters
+        }
+        
+        // Family: 1 = 0 leads, 2 = 0 leads (no leads from family)
+        // No calculation needed for family leads
+        
+        // Update the monthly leads for the employee
+        salesData.monthlyLeads[emp][monthIndex] = totalLeads;
+      }
+      
       function updateMonthly(emp, monthIndex, val) { salesData.monthlyLeads[emp][monthIndex] = Number(val) || 0; renderMonthly(); }
       function updateBatch(emp, id, v) { batchData.batchLeads[emp][id] = Number(v) || 0; renderBatch(); }
       function updateTHC(id, v) { batchData.thc[id] = Number(v) || 0; renderBatch(); }
@@ -1209,6 +1491,72 @@
         renderMonthly();
       }
 
+      // --- BATCH CALCULATION FUNCTION (CONNECTS 2ND AND 3RD CAROUSELS) ---
+      function calculateBatch() {
+        const batchSelect = document.getElementById("batchSelect");
+        const selectedBatch = batchSelect.value;
+        
+        if (!selectedBatch) {
+          showNotification("Please select a batch first", "warning");
+          return;
+        }
+        
+        let targetMonth = -1;
+        let batchName = "";
+        
+        // Map batch to month
+        switch(selectedBatch) {
+          case "8march": targetMonth = 2; batchName = "8 March Batch"; break;
+          case "6april": targetMonth = 2; batchName = "6 April Batch"; break;
+          case "18may": targetMonth = 6; batchName = "18 May Batch"; break;
+          default: showNotification("Invalid batch selection", "error"); return;
+        }
+        
+        // Filter employees by the selected batch
+        let employeesInBatch = salesData.employees;
+        if (selectedBatch !== "all") {
+          employeesInBatch = salesData.employees.filter(emp => employeeBatches[emp] === selectedBatch);
+        }
+        
+        // Loop through each employee to calculate and add leads
+        employeesInBatch.forEach(emp => {
+          // CONNECTION: Read data from the 2nd carousel's structure for the target month.
+          // salesData.leadSummary[emp][targetMonth] gets the Fresher, Offer, etc., counts for that specific month.
+          const summary = salesData.leadSummary[emp][targetMonth];
+          let additionalLeads = 0;
+          
+          // Apply the calculation rules
+          if (summary.pre > 0) {
+            additionalLeads += summary.pre * 1; // 1 lead per fresher
+          }
+          
+          if (summary.off >= 2) {
+            additionalLeads += Math.floor(summary.off / 2) * 1; // 1 lead per 2 offers
+          }
+          
+          if (summary.rep >= 2) {
+            additionalLeads += Math.floor(summary.rep / 2) * 1; // 1 lead per 2 repeaters
+          }
+          
+          // CONNECTION: Add the calculated leads to the 3rd carousel's structure for the target month.
+          salesData.monthlyLeads[emp][targetMonth] = (salesData.monthlyLeads[emp][targetMonth] || 0) + additionalLeads;
+        });
+        
+        // --- UI Feedback ---
+        // Reset the dropdown
+        batchSelect.value = "";
+        
+        // Automatically switch the 3rd carousel's view to the calculated month
+        document.getElementById('monthlyMonthSelect').value = targetMonth;
+        currentMonthlyMonth = targetMonth;
+        
+        // Re-render the 3rd carousel table to show the updated values and highlight the correct column
+        renderMonthly();
+        
+        const monthName = customHeaders.monthly[targetMonth + 1];
+        showNotification(`${batchName} calculated using data from ${monthName} and added to the 3rd carousel.`, "success");
+      }
+
       // --- UTILITY FUNCTIONS ---
       function downloadTableAsPDF(tableBodyId, filename) {
         showLoading();
@@ -1223,14 +1571,41 @@
           pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio); pdf.save(filename); hideLoading();
         }).catch((error) => { console.error("Error generating PDF:", error); showNotification("Failed to generate PDF.", "error"); hideLoading(); });
       }
+
+      function downloadChartsAsPDF(filename) {
+        showLoading();
+        const chartsSection = document.querySelector('.charts-container').parentElement;
+        html2canvas(chartsSection, { scale: 2, logging: false, useCORS: true }).then((canvas) => {
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF("l", "mm", "a4"); 
+          const imgData = canvas.toDataURL("image/png");
+          const pdfWidth = pdf.internal.pageSize.getWidth(); 
+          const pdfHeight = pdf.internal.pageSize.getHeight();
+          const imgWidth = canvas.width; 
+          const imgHeight = canvas.height;
+          const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+          const imgX = (pdfWidth - imgWidth * ratio) / 2; 
+          const imgY = 10;
+          pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio); 
+          pdf.save(filename); 
+          hideLoading();
+          showNotification("Charts downloaded successfully!", "success");
+        }).catch((error) => { 
+          console.error("Error generating PDF:", error); 
+          showNotification("Failed to generate PDF.", "error"); 
+          hideLoading(); 
+        });
+      }
       
       let webinarChart, webinarBarChart;
       
-      // --- PIE CHART FUNCTION ---
       function renderWebinarPieChart() {
         const ctx = document.getElementById("webinarPieChart");
-        const labels = Object.keys(webinarMonthlyLeads);
-        const data = Object.values(webinarMonthlyLeads);
+        
+        // Get data for the current year
+        const currentYearData = webinarMonthlyLeads[currentWebinarYear] || {};
+        const labels = Object.keys(currentYearData);
+        const data = Object.values(currentYearData);
         
         if (webinarChart) {
           webinarChart.destroy();
@@ -1264,9 +1639,7 @@
                 labels: {
                   boxWidth: 12,
                   padding: 10,
-                  font: {
-                    size: 11
-                  },
+                  font: { size: 11 },
                   generateLabels: function(chart) {
                     const data = chart.data;
                     if (data.labels.length && data.datasets.length) {
@@ -1289,20 +1662,20 @@
               tooltip: {
                 backgroundColor: "rgba(0, 0, 0, 0.8)",
                 padding: 10,
-                titleFont: {
-                  size: 13,
-                  weight: "bold"
-                },
-                bodyFont: {
-                  size: 12
-                },
+                titleFont: { size: 13, weight: "bold" },
+                bodyFont: { size: 12 },
                 callbacks: {
                   label: function(context) {
                     const label = context.label || '';
                     const value = context.raw || 0;
-                    return `${label}: ${value} leads`;
+                    return `${label}: ${value} leads (${currentWebinarYear})`;
                   }
                 }
+              },
+              title: {
+                display: true,
+                text: `Webinar Leads - ${currentWebinarYear}`,
+                font: { size: 16, weight: "bold" }
               }
             },
             animation: {
@@ -1314,11 +1687,13 @@
         });
       }
       
-      // --- BAR CHART FUNCTION ---
       function renderWebinarBarChart() {
         const ctx = document.getElementById("webinarBarChart");
-        const labels = Object.keys(webinarMonthlyLeads);
-        const data = Object.values(webinarMonthlyLeads);
+        
+        // Get data for the current year
+        const currentYearData = webinarMonthlyLeads[currentWebinarYear] || {};
+        const labels = Object.keys(currentYearData);
+        const data = Object.values(currentYearData);
         
         if (webinarBarChart) {
           webinarBarChart.destroy();
@@ -1333,7 +1708,7 @@
           data: {
             labels: labels,
             datasets: [{
-              label: "Lead Count",
+              label: `${currentWebinarYear} Lead Count`,
               data: data,
               backgroundColor: gradient,
               borderColor: "#1e3a8a",
@@ -1346,60 +1721,69 @@
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
-              },
+              legend: { display: false },
               tooltip: {
                 backgroundColor: "rgba(0, 0, 0, 0.8)",
                 padding: 10,
-                titleFont: {
-                  size: 14,
-                  weight: "bold"
-                },
-                bodyFont: {
-                  size: 12
-                },
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 12 },
                 callbacks: {
+                  title: function(context) {
+                    return `${context[0].label} ${currentWebinarYear}`;
+                  },
                   label: function(context) {
                     return `Leads: ${context.raw}`;
                   }
                 }
+              },
+              title: {
+                display: true,
+                text: `Monthly Webinar Leads - ${currentWebinarYear}`,
+                font: { size: 16, weight: "bold" }
               }
             },
             scales: {
               y: {
                 beginAtZero: true,
-                grid: {
-                  color: "rgba(0, 0, 0, 0.05)"
-                },
-                ticks: {
-                  font: {
-                    size: 11
-                  }
+                grid: { color: "rgba(0, 0, 0, 0.05)" },
+                ticks: { font: { size: 11 } },
+                title: {
+                  display: true,
+                  text: "Number of Leads"
                 }
               },
               x: {
-                grid: {
-                  display: false
-                },
-                ticks: {
-                  font: {
-                    size: 11
-                  }
+                grid: { display: false },
+                ticks: { font: { size: 11 } },
+                title: {
+                  display: true,
+                  text: "Month"
                 }
               }
             },
-            animation: {
-              duration: 1000,
-              easing: "easeInOutQuart"
-            }
+            animation: { duration: 1000, easing: "easeInOutQuart" }
           }
         });
       }
       
       // --- INITIALIZE ---
-      document.addEventListener("DOMContentLoaded", fetchData);
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("summaryMonthSelect").value = currentSummaryMonth;
+        document.getElementById("monthlyMonthSelect").value = currentMonthlyMonth;
+        document.getElementById("webinarYearSelect").value = currentWebinarYear;
+        document.getElementById("currentYearBadge").textContent = currentWebinarYear;
+        
+        // Initialize sample employee batch data
+        if (salesData.employees.length > 0 && Object.keys(employeeBatches).length === 0) {
+          // Assign employees to batches for demo purposes
+          const batches = ["8march", "6april", "18may"];
+          salesData.employees.forEach((emp, index) => {
+            employeeBatches[emp] = batches[index % batches.length];
+          });
+        }
+        
+        fetchData();
+      });
     </script>
   </body>
 </html>
-
